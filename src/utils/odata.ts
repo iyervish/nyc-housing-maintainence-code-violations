@@ -18,7 +18,6 @@ export function buildODataFilter(options: ODataFilterOptions): string {
   }
 
   parts.push(`violationstatus eq 'Open'`);
-  parts.push(`latitude ne null and longitude ne null`);
 
   return parts.join(' and ');
 }

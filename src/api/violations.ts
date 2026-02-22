@@ -34,7 +34,15 @@ export async function fetchAllViolations(
     all.push(...data.value);
     onProgress(all.length);
 
-    nextUrl = data['@odata.nextLink'] ?? null;
+    const rawNext = data['@odata.nextLink'];
+    if (rawNext) {
+      // @odata.nextLink is the full external URL — rewrite to the local proxy path
+      // so subsequent pages go through the Vite dev server proxy (avoids CORS).
+      const parsed = new URL(rawNext);
+      nextUrl = parsed.pathname + parsed.search;
+    } else {
+      nextUrl = null;
+    }
   }
 
   return all;
