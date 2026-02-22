@@ -3,13 +3,13 @@ import type { ViolationClass } from '../../types/violation';
 import { VIOLATION_CLASS_COLORS } from '../../constants/map';
 
 const CLASSES: { value: ViolationClass; label: string; description: string }[] = [
-  { value: 'A', label: 'Class A', description: 'Non-hazardous' },
-  { value: 'B', label: 'Class B', description: 'Hazardous' },
   { value: 'C', label: 'Class C', description: 'Immediately hazardous' },
+  { value: 'B', label: 'Class B', description: 'Hazardous' },
+  { value: 'A', label: 'Class A', description: 'Non-hazardous' },
 ];
 
 export function ClassFilter() {
-  const { classes, toggleClass } = useFilterStore();
+  const { violationClass, setViolationClass } = useFilterStore();
 
   return (
     <fieldset className="filter-fieldset">
@@ -18,10 +18,11 @@ export function ClassFilter() {
         {CLASSES.map(({ value, label, description }) => (
           <label key={value} className="filter-label">
             <input
-              type="checkbox"
+              type="radio"
+              name="violationClass"
               className="filter-checkbox"
-              checked={classes.includes(value)}
-              onChange={() => toggleClass(value)}
+              checked={violationClass === value}
+              onChange={() => setViolationClass(value)}
               aria-label={`Filter by ${label}: ${description}`}
             />
             <span

@@ -14,7 +14,7 @@ interface UseViolationsResult {
 }
 
 export function useViolations(): UseViolationsResult {
-  const { borough, classes } = useFilterStore();
+  const { borough, violationClass } = useFilterStore();
   const [geojson, setGeojson] = useState<FeatureCollection<Point, ViolationProperties> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +33,7 @@ export function useViolations(): UseViolationsResult {
     setError(null);
     setRecordCount(0);
 
-    const filter = buildODataFilter({ borough, classes });
+    const filter = buildODataFilter({ borough, violationClass });
 
     fetchAllViolations(filter, controller.signal, (count) => {
       setRecordCount(count);
@@ -56,7 +56,7 @@ export function useViolations(): UseViolationsResult {
     return () => {
       controller.abort();
     };
-  }, [borough, classes]);
+  }, [borough, violationClass]);
 
   return { geojson, loading, error, recordCount };
 }

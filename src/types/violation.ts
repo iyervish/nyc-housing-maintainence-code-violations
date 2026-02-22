@@ -24,10 +24,9 @@ export interface ViolationRaw {
 
 export interface FilterState {
   borough: Borough;
-  classes: ViolationClass[];
+  violationClass: ViolationClass;
   setBorough: (borough: Borough) => void;
-  setClasses: (classes: ViolationClass[]) => void;
-  toggleClass: (cls: ViolationClass) => void;
+  setViolationClass: (cls: ViolationClass) => void;
 }
 
 export interface ViolationProperties {
