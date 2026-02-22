@@ -9,6 +9,16 @@ interface ViolationPopupProps {
   onClose: () => void;
 }
 
+const CLASS_LABELS: Record<string, string> = {
+  A: 'Non-Hazardous',
+  B: 'Hazardous',
+  C: 'Immediately Hazardous',
+};
+
+function toTitleCase(str: string): string {
+  return str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export function ViolationPopup({
   longitude,
   latitude,
@@ -16,9 +26,16 @@ export function ViolationPopup({
   onClose,
 }: ViolationPopupProps) {
   const classColor = VIOLATION_CLASS_COLORS[properties.class] ?? '#888';
-  const address = `${properties.housenumber} ${properties.streetname}`;
+  const isOpen = properties.violationstatus === 'Open';
+  const address = toTitleCase(`${properties.housenumber} ${properties.streetname}`);
+  const borough = toTitleCase(properties.boro);
+  const classLabel = CLASS_LABELS[properties.class] ?? `Class ${properties.class}`;
   const date = properties.inspectiondate
-    ? new Date(properties.inspectiondate).toLocaleDateString()
+    ? new Date(properties.inspectiondate).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
     : 'Unknown';
 
   return (
@@ -28,41 +45,54 @@ export function ViolationPopup({
       anchor="bottom"
       onClose={onClose}
       closeOnClick={false}
-      maxWidth="320px"
+      maxWidth="300px"
+      className="violation-popup"
     >
-      <div className="violation-popup" role="dialog" aria-label="Violation details">
-        <div className="popup-header">
-          <span
-            className="popup-class-badge"
-            style={{ backgroundColor: classColor }}
-            aria-label={`Class ${properties.class} violation`}
-          >
-            Class {properties.class}
-          </span>
-          <span
-            className={`popup-status ${properties.violationstatus === 'Open' ? 'status-open' : 'status-closed'}`}
-          >
-            {properties.violationstatus}
+      <div
+        className="popup-card"
+        role="dialog"
+        aria-label="Violation details"
+        style={{ '--class-color': classColor } as React.CSSProperties}
+      >
+        <div className="popup-severity-stripe" />
+
+        <div className="popup-top">
+          <div className="popup-grade-block">
+            <span className="popup-grade-letter" aria-label={`Class ${properties.class}`}>
+              {properties.class}
+            </span>
+            <span className="popup-grade-label">{classLabel}</span>
+          </div>
+          <span className={`popup-status-pill ${isOpen ? 'pill-open' : 'pill-closed'}`}>
+            <span className="pill-dot" aria-hidden="true" />
+            {isOpen ? 'Open' : 'Closed'}
           </span>
         </div>
-        <h3 className="popup-address">{address}</h3>
-        <p className="popup-borough">{properties.boro}</p>
-        <dl className="popup-details">
-          <div className="popup-detail-row">
-            <dt>Inspection Date</dt>
-            <dd>{date}</dd>
+
+        <div className="popup-location">
+          <p className="popup-address-line">{address}</p>
+          <p className="popup-borough-line">{borough}</p>
+        </div>
+
+        <div className="popup-rule" />
+
+        <div className="popup-meta">
+          <div className="popup-meta-row">
+            <span className="popup-meta-key">Inspected</span>
+            <span className="popup-meta-val">{date}</span>
           </div>
           {properties.rentimpairing === 'YES' && (
-            <div className="popup-detail-row popup-rent-impairing">
-              <dt>Rent Impairing</dt>
-              <dd>Yes</dd>
+            <div className="popup-rent-flag" role="alert">
+              ⚠ Rent Impairing
             </div>
           )}
-          <div className="popup-detail-row">
-            <dt>Description</dt>
-            <dd className="popup-description">{properties.novdescription}</dd>
+        </div>
+
+        {properties.novdescription && (
+          <div className="popup-desc" aria-label="Violation description">
+            {properties.novdescription}
           </div>
-        </dl>
+        )}
       </div>
     </Popup>
   );

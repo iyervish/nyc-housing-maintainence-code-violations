@@ -2,20 +2,11 @@ import { create } from 'zustand';
 import type { FilterState, Borough, ViolationClass } from '../types/violation';
 
 export const useFilterStore = create<FilterState>((set) => ({
-  boroughs: [],
+  borough: 'MANHATTAN',
   classes: [],
-  status: 'All',
 
-  setBoroughs: (boroughs: Borough[]) => set({ boroughs }),
+  setBorough: (borough: Borough) => set({ borough }),
   setClasses: (classes: ViolationClass[]) => set({ classes }),
-  setStatus: (status) => set({ status }),
-
-  toggleBorough: (borough: Borough) =>
-    set((state) => ({
-      boroughs: state.boroughs.includes(borough)
-        ? state.boroughs.filter((b) => b !== borough)
-        : [...state.boroughs, borough],
-    })),
 
   toggleClass: (cls: ViolationClass) =>
     set((state) => ({

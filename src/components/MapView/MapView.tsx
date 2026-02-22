@@ -4,7 +4,6 @@ import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import type { GeoJSONSource } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { HeatmapLayer } from './HeatmapLayer';
 import { ClusterLayer } from './ClusterLayer';
 import { ViolationPopup } from './ViolationPopup';
 import {
@@ -15,7 +14,7 @@ import {
   CLUSTER_SOURCE_ID,
   MAPTILER_STYLE_URL,
 } from '../../constants/map';
-import type { MapViewMode, ViolationProperties } from '../../types/violation';
+import type { ViolationProperties } from '../../types/violation';
 
 interface PopupState {
   longitude: number;
@@ -25,23 +24,17 @@ interface PopupState {
 
 interface MapViewProps {
   geojson: FeatureCollection<Point, ViolationProperties> | null;
-  viewMode: MapViewMode;
 }
 
 const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
 
-export function MapView({ geojson, viewMode }: MapViewProps) {
+export function MapView({ geojson }: MapViewProps) {
   const [popup, setPopup] = useState<PopupState | null>(null);
 
-  const interactiveLayerIds =
-    viewMode === 'clusters'
-      ? [CLUSTER_CIRCLES_LAYER_ID, UNCLUSTERED_LAYER_ID]
-      : [];
+  const interactiveLayerIds = [CLUSTER_CIRCLES_LAYER_ID, UNCLUSTERED_LAYER_ID];
 
   const handleMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
-      if (viewMode !== 'clusters') return;
-
       const features = event.features;
       if (!features || features.length === 0) return;
 
@@ -69,7 +62,7 @@ export function MapView({ geojson, viewMode }: MapViewProps) {
         });
       }
     },
-    [viewMode]
+    []
   );
 
   const handleClosePopup = useCallback(() => setPopup(null), []);
@@ -89,11 +82,7 @@ export function MapView({ geojson, viewMode }: MapViewProps) {
       >
         <NavigationControl position="top-right" />
 
-        {geojson && viewMode === 'heatmap' && (
-          <HeatmapLayer geojson={geojson} />
-        )}
-
-        {geojson && viewMode === 'clusters' && (
+        {geojson && (
           <ClusterLayer geojson={geojson} />
         )}
 

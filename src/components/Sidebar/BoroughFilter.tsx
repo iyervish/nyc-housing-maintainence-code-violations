@@ -10,7 +10,7 @@ const BOROUGHS: { value: Borough; label: string }[] = [
 ];
 
 export function BoroughFilter() {
-  const { boroughs, toggleBorough } = useFilterStore();
+  const { borough, setBorough } = useFilterStore();
 
   return (
     <fieldset className="filter-fieldset">
@@ -19,10 +19,11 @@ export function BoroughFilter() {
         {BOROUGHS.map(({ value, label }) => (
           <label key={value} className="filter-label">
             <input
-              type="checkbox"
+              type="radio"
+              name="borough"
               className="filter-checkbox"
-              checked={boroughs.includes(value)}
-              onChange={() => toggleBorough(value)}
+              checked={borough === value}
+              onChange={() => setBorough(value)}
               aria-label={`Filter by ${label}`}
             />
             <span>{label}</span>

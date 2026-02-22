@@ -1,6 +1,5 @@
 export type ViolationClass = 'A' | 'B' | 'C';
 export type ViolationStatus = 'Open' | 'Close';
-export type MapViewMode = 'heatmap' | 'clusters';
 export type Borough =
   | 'MANHATTAN'
   | 'BROOKLYN'
@@ -24,13 +23,10 @@ export interface ViolationRaw {
 }
 
 export interface FilterState {
-  boroughs: Borough[];
+  borough: Borough;
   classes: ViolationClass[];
-  status: 'All' | ViolationStatus;
-  setBoroughs: (boroughs: Borough[]) => void;
+  setBorough: (borough: Borough) => void;
   setClasses: (classes: ViolationClass[]) => void;
-  setStatus: (status: 'All' | ViolationStatus) => void;
-  toggleBorough: (borough: Borough) => void;
   toggleClass: (cls: ViolationClass) => void;
 }
 
