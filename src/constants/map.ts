@@ -1,6 +1,9 @@
 export const ODATA_BASE_URL =
   'https://data.cityofnewyork.us/api/odata/v4/wvxf-dwi5';
 
+export const MAPTILER_STYLE_URL = (key: string) =>
+  `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${key}`;
+
 export const ODATA_SELECT_FIELDS = [
   'violationid',
   'boro',

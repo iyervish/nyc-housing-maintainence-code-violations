@@ -1,4 +1,4 @@
-import { Popup } from 'react-map-gl/mapbox';
+import { Popup } from 'react-map-gl/maplibre';
 import type { ViolationProperties } from '../../types/violation';
 import { VIOLATION_CLASS_COLORS } from '../../constants/map';
 

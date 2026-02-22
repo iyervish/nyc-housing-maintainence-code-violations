@@ -1,5 +1,5 @@
-import { Source, Layer } from 'react-map-gl/mapbox';
-import type { LayerProps } from 'react-map-gl/mapbox';
+import { Source, Layer } from 'react-map-gl/maplibre';
+import type { LayerProps } from 'react-map-gl/maplibre';
 import type { FeatureCollection, Point } from 'geojson';
 import {
   HEATMAP_SOURCE_ID,

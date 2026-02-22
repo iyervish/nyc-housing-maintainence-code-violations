@@ -13,14 +13,12 @@ export async function fetchAllViolations(
 ): Promise<ViolationRaw[]> {
   const all: ViolationRaw[] = [];
 
-  const initialUrl = new URL(ODATA_BASE_URL);
-  initialUrl.searchParams.set('$top', '5000');
-  initialUrl.searchParams.set('$select', ODATA_SELECT_FIELDS);
+  const queryParts = [`$top=5000`, `$select=${ODATA_SELECT_FIELDS}`];
   if (filter) {
-    initialUrl.searchParams.set('$filter', filter);
+    queryParts.push(`$filter=${encodeURIComponent(filter)}`);
   }
 
-  let nextUrl: string | null = initialUrl.toString();
+  let nextUrl: string | null = `${ODATA_BASE_URL}?${queryParts.join('&')}`;
 
   while (nextUrl) {
     if (signal.aborted) break;

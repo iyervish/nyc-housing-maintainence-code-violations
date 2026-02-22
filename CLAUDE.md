@@ -29,9 +29,9 @@ Zustand filterStore (boroughs, classes, status)
 
 **Key constraint:** `viewMode` (heatmap/clusters) lives in `App.tsx` state — it's a UI-only concern that does **not** trigger re-fetch. Only `filterStore` changes trigger re-fetch.
 
-**Layer typing:** Mapbox layer spec constants must be typed as `LayerProps` from `react-map-gl/mapbox` — not `CircleLayerSpecification` etc. from `mapbox-gl`. The mapbox-gl spec types require a `source` field and use mutable array types that conflict with `as const`. Using `LayerProps` makes both `source` and `id` optional.
+**Layer typing:** Mapbox/MapLibre layer spec constants must be typed as `LayerProps` from `react-map-gl/maplibre` — not `CircleLayerSpecification` etc. from `mapbox-gl`. The mapbox-gl spec types require a `source` field and use mutable array types that conflict with `as const`. Using `LayerProps` makes both `source` and `id` optional.
 
-**Click handling in cluster mode:** `MapView` sets `interactiveLayerIds` to the two cluster layer IDs, which causes `event.features` to be populated on click. Cluster circles call `source.getClusterExpansionZoom()` via `event.target` (the raw mapbox-gl `Map` instance). Individual point clicks open `ViolationPopup`.
+**Click handling in cluster mode:** `MapView` sets `interactiveLayerIds` to the two cluster layer IDs, which causes `event.features` to be populated on click. The `onClick` handler receives `MapLayerMouseEvent` (from `react-map-gl/maplibre`). Cluster circles call `source.getClusterExpansionZoom(clusterId)` — this returns a `Promise<number>` in MapLibre v5 (no callback). Individual point clicks open `ViolationPopup`.
 
 **OData filter:** `buildODataFilter()` always appends `latitude ne null and longitude ne null`. Empty `boroughs[]` or `classes[]` arrays mean "no filter on that field" (show all). The `$filter` param is omitted entirely when the filter string is empty.
 
@@ -39,7 +39,7 @@ Zustand filterStore (boroughs, classes, status)
 
 ## Environment
 
-Requires `VITE_MAPBOX_TOKEN` in `.env`. See `.env.example`. The token is read via `import.meta.env.VITE_MAPBOX_TOKEN` — type augmented in `src/vite-env.d.ts`.
+Requires `VITE_MAPTILER_KEY` in `.env`. See `.env.example`. The key is read via `import.meta.env.VITE_MAPTILER_KEY` — type augmented in `src/vite-env.d.ts`. The key is embedded directly in the Maptiler style URL via `MAPTILER_STYLE_URL()` in `src/constants/map.ts` — there is no `mapboxAccessToken` prop on the `Map` component.
 
 ## API
 
