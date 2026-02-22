@@ -34,7 +34,8 @@ export async function fetchAllViolations(
     all.push(...data.value);
     onProgress(all.length);
 
-    nextUrl = data['@odata.nextLink'] ?? null;
+    const rawNext = data['@odata.nextLink'];
+    nextUrl = rawNext ? new URL(rawNext).pathname + new URL(rawNext).search : null;
   }
 
   return all;
