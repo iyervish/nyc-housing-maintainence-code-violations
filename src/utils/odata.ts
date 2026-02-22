@@ -27,7 +27,5 @@ export function buildODataFilter(options: ODataFilterOptions): string {
     parts.push(`violationstatus eq '${options.status}'`);
   }
 
-  parts.push('latitude ne null and longitude ne null');
-
   return parts.join(' and ');
 }
