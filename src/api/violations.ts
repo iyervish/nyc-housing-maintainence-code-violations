@@ -13,7 +13,7 @@ export async function fetchAllViolations(
 ): Promise<ViolationRaw[]> {
   const all: ViolationRaw[] = [];
 
-  const queryParts = [`$top=5000`, `$select=${ODATA_SELECT_FIELDS}`];
+  const queryParts = [`$top=500`, `$select=${ODATA_SELECT_FIELDS}`];
   if (filter) {
     queryParts.push(`$filter=${encodeURIComponent(filter)}`);
   }
@@ -34,8 +34,7 @@ export async function fetchAllViolations(
     all.push(...data.value);
     onProgress(all.length);
 
-    const rawNext = data['@odata.nextLink'];
-    nextUrl = rawNext ? new URL(rawNext).pathname + new URL(rawNext).search : null;
+    nextUrl = null; // single page for testing
   }
 
   return all;
