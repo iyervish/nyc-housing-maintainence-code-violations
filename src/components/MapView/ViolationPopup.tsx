@@ -45,7 +45,8 @@ export function ViolationPopup({
       anchor="bottom"
       onClose={onClose}
       closeOnClick={false}
-      maxWidth="300px"
+      closeButton={false}
+      maxWidth="360px"
       className="violation-popup"
     >
       <div
@@ -63,6 +64,16 @@ export function ViolationPopup({
             </span>
             <span className="popup-grade-label">{classLabel}</span>
           </div>
+          <button
+            className="popup-close-btn"
+            onClick={onClose}
+            aria-label="Close violation details"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="popup-pill-row">
           <span className={`popup-status-pill ${isOpen ? 'pill-open' : 'pill-closed'}`}>
             <span className="pill-dot" aria-hidden="true" />
             {isOpen ? 'Open' : 'Closed'}
