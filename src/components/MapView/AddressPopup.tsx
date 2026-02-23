@@ -35,11 +35,13 @@ export function AddressPopup({
   violations,
   onClose,
 }: AddressPopupProps) {
-  if (violations.length === 0) return null;
+  const list = Array.isArray(violations) ? violations : [];
+  if (list.length === 0) return null;
 
-  const first = violations[0];
-  const address = toTitleCase(`${first.housenumber} ${first.streetname}`);
-  const borough = toTitleCase(first.boro);
+  const first = list[0];
+  if (!first) return null;
+  const address = toTitleCase(`${first.housenumber ?? ''} ${first.streetname ?? ''}`.trim() || 'Unknown');
+  const borough = toTitleCase(first.boro ?? '');
 
   return (
     <Popup
@@ -55,7 +57,7 @@ export function AddressPopup({
       <div
         className="popup-card address-popup-card"
         role="dialog"
-        aria-label={`${violations.length} violations at ${address}`}
+        aria-label={`${list.length} violations at ${address}`}
       >
         <div className="popup-severity-stripe address-popup-stripe" />
 
@@ -64,7 +66,7 @@ export function AddressPopup({
             <p className="popup-address-line">{address}</p>
             <p className="popup-borough-line">{borough}</p>
             <p className="address-popup-count" aria-live="polite">
-              {violations.length} violation{violations.length !== 1 ? 's' : ''} at this address
+              {list.length} violation{list.length !== 1 ? 's' : ''} at this address
             </p>
           </div>
           <button
@@ -79,7 +81,7 @@ export function AddressPopup({
         <div className="popup-rule" />
 
         <ul className="address-popup-list" aria-label="Violations list">
-          {violations.map((v) => {
+          {list.map((v) => {
             const classColor = VIOLATION_CLASS_COLORS[v.class] ?? '#888';
             const isOpen = v.violationstatus === 'Open';
             const classLabel = CLASS_LABELS[v.class] ?? `Class ${v.class}`;

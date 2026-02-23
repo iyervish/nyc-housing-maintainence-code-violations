@@ -109,21 +109,25 @@ export function MapView({ geojson }: MapViewProps) {
             event.target.easeTo({ center: [longitude, latitude], zoom });
           }).catch(() => undefined);
         }
-      } else {
-        const addressFeature = features.find(
-          (f) => f.properties && 'violationCount' in f.properties
-        );
-        const props = addressFeature?.properties as AddressFeatureProperties | undefined;
-        if (props?.violations?.length) {
+      } else if (geojson) {
+        const [lng, lat] = [longitude, latitude];
+        const tol = 1e-9;
+        const match = geojson.features.find((f) => {
+          if (f.geometry.type !== 'Point') return false;
+          const [x, y] = f.geometry.coordinates;
+          return Math.abs(x - lng) < tol && Math.abs(y - lat) < tol;
+        });
+        const violations = match?.properties?.violations;
+        if (Array.isArray(violations) && violations.length > 0) {
           setPopup({
             longitude,
             latitude,
-            violations: props.violations,
+            violations,
           });
         }
       }
     },
-    []
+    [geojson]
   );
 
   const handleClosePopup = useCallback(() => setPopup(null), []);
