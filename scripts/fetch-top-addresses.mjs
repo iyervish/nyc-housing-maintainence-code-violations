@@ -4,49 +4,36 @@
  * Re-run when you want to refresh the static data.
  */
 
-const ODATA_BASE = 'https://data.cityofnewyork.us/api/odata/v4/wvxf-dwi5';
-const SELECT = 'violationid,boro,housenumber,streetname,class,violationstatus,inspectiondate,novdescription,rentimpairing,latitude,longitude,nta';
+const SOCRATA_BASE = 'https://data.cityofnewyork.us/resource/wvxf-dwi5.json';
 const BOROUGHS = ['MANHATTAN', 'BROOKLYN', 'QUEENS', 'BRONX', 'STATEN ISLAND'];
 
-function addressKey(v) {
-  return `${(v.housenumber ?? '').trim()}|${(v.streetname ?? '').trim()}`;
-}
-
-function getTop10(violations, boro) {
-  const counts = new Map();
-  for (const v of violations) {
-    const key = addressKey(v);
-    const hn = (v.housenumber ?? '').trim();
-    const sn = (v.streetname ?? '').trim();
-    if (!counts.has(key)) counts.set(key, { housenumber: hn, streetname: sn, count: 0 });
-    counts.get(key).count++;
-  }
-  return [...counts.values()]
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 10)
-    .map(({ housenumber, streetname, count }) => ({ boro, housenumber, streetname, count }));
-}
-
-async function fetchAllForBorough(borough) {
-  const all = [];
-  let url = `${ODATA_BASE}?$top=50000&$select=${SELECT}&$filter=${encodeURIComponent("boro eq '" + borough + "'")}`;
-  while (url) {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    const data = await res.json();
-    all.push(...(data.value || []));
-    url = data['@odata.nextLink'] || null;
-  }
-  return all;
+async function fetchTop10ForBorough(borough) {
+  const params = new URLSearchParams({
+    '$select': 'boro,housenumber,streetname,count(*) as count',
+    '$group': 'boro,housenumber,streetname',
+    '$where': `boro='${borough}'`,
+    '$order': 'count DESC',
+    '$limit': '10',
+  });
+  const url = `${SOCRATA_BASE}?${params}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${await res.text()}`);
+  const rows = await res.json();
+  return rows.map((row) => ({
+    boro: row.boro,
+    housenumber: (row.housenumber ?? '').trim(),
+    streetname: (row.streetname ?? '').trim(),
+    count: Number(row.count),
+  }));
 }
 
 async function main() {
   const data = {};
   for (const boro of BOROUGHS) {
     console.error(`Fetching ${boro}...`);
-    const violations = await fetchAllForBorough(boro);
-    data[boro] = getTop10(violations, boro);
-    console.error(`  ${violations.length} records → top 10`);
+    const top10 = await fetchTop10ForBorough(boro);
+    data[boro] = top10;
+    console.error(`  top address: ${top10[0]?.housenumber} ${top10[0]?.streetname} (${top10[0]?.count} violations)`);
   }
   const lastUpdated = new Date().toISOString().slice(0, 10);
   const out = { lastUpdated, data };

@@ -1,10 +1,315 @@
 {
-  "lastUpdated": "2025-02-22",
+  "lastUpdated": "2026-02-23",
   "data": {
-    "MANHATTAN": [],
-    "BROOKLYN": [],
-    "QUEENS": [],
-    "BRONX": [],
-    "STATEN ISLAND": []
+    "MANHATTAN": [
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "101",
+        "streetname": "POST AVENUE",
+        "count": 3168
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "107",
+        "streetname": "EAST 126 STREET",
+        "count": 2948
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "1",
+        "streetname": "JACOBUS PLACE",
+        "count": 2792
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "192",
+        "streetname": "NAGLE AVENUE",
+        "count": 2482
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "645",
+        "streetname": "WEST 160 STREET",
+        "count": 2460
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "765",
+        "streetname": "RIVERSIDE DRIVE",
+        "count": 2452
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "3851",
+        "streetname": "BROADWAY",
+        "count": 2437
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "560",
+        "streetname": "AUDUBON AVENUE",
+        "count": 2354
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "543",
+        "streetname": "WEST 125 STREET",
+        "count": 2338
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "61",
+        "streetname": "VERMILYEA AVENUE",
+        "count": 2285
+      }
+    ],
+    "BROOKLYN": [
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "765",
+        "streetname": "LINCOLN AVENUE",
+        "count": 5522
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "760",
+        "streetname": "ELDERT LANE",
+        "count": 4281
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "790",
+        "streetname": "ELDERT LANE",
+        "count": 3989
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "2501",
+        "streetname": "NEWKIRK AVENUE",
+        "count": 3743
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "735",
+        "streetname": "LINCOLN AVENUE",
+        "count": 3709
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "755",
+        "streetname": "OCEAN AVENUE",
+        "count": 3347
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "675",
+        "streetname": "LINCOLN AVENUE",
+        "count": 3089
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "116",
+        "streetname": "LENOX ROAD",
+        "count": 3066
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "75",
+        "streetname": "LENOX ROAD",
+        "count": 3049
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "1593",
+        "streetname": "FULTON STREET",
+        "count": 2952
+      }
+    ],
+    "QUEENS": [
+      {
+        "boro": "QUEENS",
+        "housenumber": "34-15",
+        "streetname": "PARSONS BOULEVARD",
+        "count": 2624
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "87-40",
+        "streetname": "165 STREET",
+        "count": 2274
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "7-11",
+        "streetname": "SEAGIRT AVENUE",
+        "count": 2139
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "146",
+        "streetname": "BEACH 59 STREET",
+        "count": 2137
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "22-88",
+        "streetname": "MOTT AVENUE",
+        "count": 2111
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "35-64",
+        "streetname": "84 STREET",
+        "count": 1869
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "109-15",
+        "streetname": "MERRICK BOULEVARD",
+        "count": 1797
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "89-04",
+        "streetname": "34 AVENUE",
+        "count": 1665
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "143-30",
+        "streetname": "SANFORD AVENUE",
+        "count": 1602
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "29-32",
+        "streetname": "BEACH CHANNEL DRIVE",
+        "count": 1594
+      }
+    ],
+    "BRONX": [
+      {
+        "boro": "BRONX",
+        "housenumber": "1742",
+        "streetname": "EAST 172 STREET",
+        "count": 4674
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "1149",
+        "streetname": "STRATFORD AVENUE",
+        "count": 4390
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "530",
+        "streetname": "EAST 169 STREET",
+        "count": 4357
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "975",
+        "streetname": "WALTON AVENUE",
+        "count": 4258
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "1025",
+        "streetname": "BOYNTON AVENUE",
+        "count": 4011
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "306",
+        "streetname": "EAST 171 STREET",
+        "count": 3999
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "709",
+        "streetname": "FAIRMOUNT PLACE",
+        "count": 3790
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "1259",
+        "streetname": "CLAY AVENUE",
+        "count": 3688
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "1967",
+        "streetname": "MARMION AVENUE",
+        "count": 3663
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "1420",
+        "streetname": "GRAND CONCOURSE",
+        "count": 3562
+      }
+    ],
+    "STATEN ISLAND": [
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "185",
+        "streetname": "PARK HILL AVENUE",
+        "count": 2329
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "140",
+        "streetname": "PARK HILL AVENUE",
+        "count": 2303
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "225",
+        "streetname": "PARK HILL AVENUE",
+        "count": 2298
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "280",
+        "streetname": "PARKHILL AVENUE",
+        "count": 2170
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "55",
+        "streetname": "HOLLAND AVENUE",
+        "count": 2055
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "240",
+        "streetname": "PARK HILL AVENUE",
+        "count": 2012
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "260",
+        "streetname": "PARKHILL AVENUE",
+        "count": 1928
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "180",
+        "streetname": "PARKHILL AVENUE",
+        "count": 1732
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "35",
+        "streetname": "HOLLAND AVENUE",
+        "count": 1717
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "160",
+        "streetname": "PARKHILL AVENUE",
+        "count": 1670
+      }
+    ]
   }
 }
