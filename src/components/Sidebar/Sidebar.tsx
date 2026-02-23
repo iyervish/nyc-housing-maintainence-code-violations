@@ -16,14 +16,8 @@ export function Sidebar() {
           visible in map
         </p>
       </div>
-      <nav className="app-nav" aria-label="Main">
-        <NavLink
-          to="/"
-          className={({ isActive }) => `app-nav-link ${isActive ? 'app-nav-link--active' : ''}`}
-          end
-        >
-          Map
-        </NavLink>
+      <FilterPanel />
+      <nav className="app-nav app-nav--bottom" aria-label="Main">
         <NavLink
           to="/top-addresses"
           className={({ isActive }) => `app-nav-link ${isActive ? 'app-nav-link--active' : ''}`}
@@ -31,7 +25,6 @@ export function Sidebar() {
           Top 10 Addresses
         </NavLink>
       </nav>
-      <FilterPanel />
     </aside>
   );
 }

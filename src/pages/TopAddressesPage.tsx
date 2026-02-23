@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { BOROUGHS, BOROUGH_LABEL } from '../constants/boroughs';
 import { LAST_UPDATED, TOP_ADDRESSES_BY_BOROUGH } from '../data/topAddresses';
 import type { Borough } from '../types/violation';
@@ -20,6 +21,7 @@ export function TopAddressesPage() {
   return (
     <div className="top-addresses-page">
       <header className="top-addresses-header">
+        <Link to="/" className="top-addresses-back">← Map</Link>
         <h1 className="top-addresses-title">Top 10 Violating Addresses by Borough</h1>
         <p className="top-addresses-subtitle">
           Addresses with the most housing maintenance code violations in each borough

@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { MapView } from './components/MapView/MapView';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { LoadingProgress } from './components/Controls/LoadingProgress';
@@ -7,10 +7,12 @@ import { TopAddressesPage } from './pages/TopAddressesPage';
 
 export default function App() {
   const { geojson, loading, error } = useViolations();
+  const location = useLocation();
+  const showSidebar = location.pathname === '/';
 
   return (
     <div className="app-layout">
-      <Sidebar />
+      {showSidebar && <Sidebar />}
       <Routes>
         <Route
           path="/"
