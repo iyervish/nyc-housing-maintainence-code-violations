@@ -1,7 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import Map, { NavigationControl } from 'react-map-gl/maplibre';
+import { useState, useCallback, useEffect } from 'react';
+import Map, { NavigationControl, useMap } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
-import type { GeoJSONSource, Map as MapLibreMap } from 'maplibre-gl';
+import type { GeoJSONSource } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { ClusterLayer } from './ClusterLayer';
@@ -17,9 +17,11 @@ import {
 } from '../../constants/map';
 import type { ViolationProperties } from '../../types/violation';
 
+type BoundsLike = { getWest(): number; getEast(): number; getSouth(): number; getNorth(): number };
+
 function countVisibleInBounds(
   geojson: FeatureCollection<Point, ViolationProperties>,
-  map: MapLibreMap
+  map: { getBounds(): BoundsLike }
 ): number {
   const bounds = map.getBounds();
   const west = bounds.getWest();
@@ -45,35 +47,37 @@ interface MapViewProps {
 
 const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
 
-export function MapView({ geojson }: MapViewProps) {
-  const [popup, setPopup] = useState<PopupState | null>(null);
-  const mapRef = useRef<MapLibreMap | null>(null);
+function ViewportCountUpdater({
+  geojson,
+}: {
+  geojson: FeatureCollection<Point, ViolationProperties> | null;
+}) {
+  const { current: mapRef } = useMap();
   const setVisibleCount = useMapStore((s) => s.setVisibleCount);
 
-  const updateVisibleCount = useCallback(() => {
+  useEffect(() => {
     if (!geojson) {
       setVisibleCount(0);
       return;
     }
-    if (!mapRef.current) return;
-    setVisibleCount(countVisibleInBounds(geojson, mapRef.current));
-  }, [geojson, setVisibleCount]);
+    if (!mapRef) return;
+    const update = () => setVisibleCount(countVisibleInBounds(geojson, mapRef));
+    update();
+    mapRef.on?.('moveend', update);
+    return () => {
+      mapRef.off?.('moveend', update);
+    };
+  }, [geojson, mapRef, setVisibleCount]);
+  return null;
+}
+
+export function MapView({ geojson }: MapViewProps) {
+  const [popup, setPopup] = useState<PopupState | null>(null);
+  const setVisibleCount = useMapStore((s) => s.setVisibleCount);
 
   useEffect(() => {
-    updateVisibleCount();
-  }, [updateVisibleCount]);
-
-  const handleLoad = useCallback(
-    (event: { target: MapLibreMap }) => {
-      mapRef.current = event.target;
-      if (geojson) setVisibleCount(countVisibleInBounds(geojson, event.target));
-    },
-    [geojson, setVisibleCount]
-  );
-
-  const handleMoveEnd = useCallback(() => {
-    updateVisibleCount();
-  }, [updateVisibleCount]);
+    if (!geojson) setVisibleCount(0);
+  }, [geojson, setVisibleCount]);
 
   const interactiveLayerIds = [CLUSTER_CIRCLES_LAYER_ID, UNCLUSTERED_LAYER_ID];
 
@@ -135,10 +139,9 @@ export function MapView({ geojson }: MapViewProps) {
         mapStyle={mapStyle}
         interactiveLayerIds={interactiveLayerIds}
         onClick={handleMapClick}
-        onLoad={handleLoad}
-        onMoveEnd={handleMoveEnd}
       >
         <NavigationControl position="top-right" />
+        <ViewportCountUpdater geojson={geojson} />
 
         {geojson && (
           <ClusterLayer geojson={geojson} />
