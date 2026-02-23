@@ -58,4 +58,5 @@ export interface TopAddressEntry {
   housenumber: string;
   streetname: string;
   count: number;
+  classCounts?: Partial<Record<ViolationClass, number>>;
 }

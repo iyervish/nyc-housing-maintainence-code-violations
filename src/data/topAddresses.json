@@ -4,63 +4,119 @@
     "MANHATTAN": [
       {
         "boro": "MANHATTAN",
-        "housenumber": "101",
-        "streetname": "POST AVENUE",
-        "count": 3168
+        "housenumber": "438",
+        "streetname": "WEST 164 STREET",
+        "count": 725,
+        "classCounts": {
+          "A": 107,
+          "B": 488,
+          "C": 129,
+          "I": 1
+        }
       },
       {
         "boro": "MANHATTAN",
-        "housenumber": "107",
-        "streetname": "EAST 126 STREET",
-        "count": 2948
+        "housenumber": "2541",
+        "streetname": "ADAM C POWELL BOULEVARD",
+        "count": 719,
+        "classCounts": {
+          "A": 134,
+          "B": 475,
+          "C": 109,
+          "I": 1
+        }
       },
       {
         "boro": "MANHATTAN",
-        "housenumber": "1",
-        "streetname": "JACOBUS PLACE",
-        "count": 2792
+        "housenumber": "700",
+        "streetname": "ESPLANADE GDNS PLAZA",
+        "count": 717,
+        "classCounts": {
+          "A": 157,
+          "B": 409,
+          "C": 150,
+          "I": 1
+        }
       },
       {
         "boro": "MANHATTAN",
-        "housenumber": "192",
+        "housenumber": "533",
+        "streetname": "WEST 145 STREET",
+        "count": 681,
+        "classCounts": {
+          "A": 161,
+          "B": 408,
+          "C": 112
+        }
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "2116",
+        "streetname": "1 AVENUE",
+        "count": 639,
+        "classCounts": {
+          "A": 106,
+          "B": 458,
+          "C": 75
+        }
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "530",
+        "streetname": "WEST 144 STREET",
+        "count": 616,
+        "classCounts": {
+          "A": 123,
+          "B": 356,
+          "C": 137
+        }
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "219",
+        "streetname": "WEST 144 STREET",
+        "count": 583,
+        "classCounts": {
+          "A": 118,
+          "B": 344,
+          "C": 120,
+          "I": 1
+        }
+      },
+      {
+        "boro": "MANHATTAN",
+        "housenumber": "140",
         "streetname": "NAGLE AVENUE",
-        "count": 2482
+        "count": 566,
+        "classCounts": {
+          "A": 75,
+          "B": 273,
+          "C": 215,
+          "I": 3
+        }
       },
       {
         "boro": "MANHATTAN",
-        "housenumber": "645",
-        "streetname": "WEST 160 STREET",
-        "count": 2460
+        "housenumber": "2030",
+        "streetname": "ADAM C POWELL BOULEVARD",
+        "count": 556,
+        "classCounts": {
+          "A": 72,
+          "B": 346,
+          "C": 137,
+          "I": 1
+        }
       },
       {
         "boro": "MANHATTAN",
-        "housenumber": "765",
-        "streetname": "RIVERSIDE DRIVE",
-        "count": 2452
-      },
-      {
-        "boro": "MANHATTAN",
-        "housenumber": "3851",
-        "streetname": "BROADWAY",
-        "count": 2437
-      },
-      {
-        "boro": "MANHATTAN",
-        "housenumber": "560",
-        "streetname": "AUDUBON AVENUE",
-        "count": 2354
-      },
-      {
-        "boro": "MANHATTAN",
-        "housenumber": "543",
-        "streetname": "WEST 125 STREET",
-        "count": 2338
-      },
-      {
-        "boro": "MANHATTAN",
-        "housenumber": "61",
-        "streetname": "VERMILYEA AVENUE",
-        "count": 2285
+        "housenumber": "415",
+        "streetname": "WEST 128 STREET",
+        "count": 534,
+        "classCounts": {
+          "A": 156,
+          "B": 287,
+          "C": 91
+        }
       }
     ],
     "BROOKLYN": [
@@ -68,61 +124,120 @@
         "boro": "BROOKLYN",
         "housenumber": "765",
         "streetname": "LINCOLN AVENUE",
-        "count": 5522
+        "count": 2302,
+        "classCounts": {
+          "A": 324,
+          "B": 1562,
+          "C": 415,
+          "I": 1
+        }
       },
       {
         "boro": "BROOKLYN",
         "housenumber": "760",
         "streetname": "ELDERT LANE",
-        "count": 4281
+        "count": 1791,
+        "classCounts": {
+          "A": 260,
+          "B": 1115,
+          "C": 415,
+          "I": 1
+        }
       },
       {
         "boro": "BROOKLYN",
         "housenumber": "790",
         "streetname": "ELDERT LANE",
-        "count": 3989
+        "count": 1623,
+        "classCounts": {
+          "A": 280,
+          "B": 983,
+          "C": 359,
+          "I": 1
+        }
       },
       {
         "boro": "BROOKLYN",
-        "housenumber": "2501",
-        "streetname": "NEWKIRK AVENUE",
-        "count": 3743
-      },
-      {
-        "boro": "BROOKLYN",
-        "housenumber": "735",
-        "streetname": "LINCOLN AVENUE",
-        "count": 3709
-      },
-      {
-        "boro": "BROOKLYN",
-        "housenumber": "755",
-        "streetname": "OCEAN AVENUE",
-        "count": 3347
+        "housenumber": "1055",
+        "streetname": "BERGEN STREET",
+        "count": 1188,
+        "classCounts": {
+          "A": 171,
+          "B": 773,
+          "C": 243,
+          "I": 1
+        }
       },
       {
         "boro": "BROOKLYN",
         "housenumber": "675",
         "streetname": "LINCOLN AVENUE",
-        "count": 3089
+        "count": 1148,
+        "classCounts": {
+          "A": 189,
+          "B": 672,
+          "C": 287
+        }
       },
       {
         "boro": "BROOKLYN",
-        "housenumber": "116",
-        "streetname": "LENOX ROAD",
-        "count": 3066
+        "housenumber": "479",
+        "streetname": "CENTRAL AVENUE",
+        "count": 924,
+        "classCounts": {
+          "A": 121,
+          "B": 576,
+          "C": 216,
+          "I": 11
+        }
       },
       {
         "boro": "BROOKLYN",
-        "housenumber": "75",
-        "streetname": "LENOX ROAD",
-        "count": 3049
+        "housenumber": "8501",
+        "streetname": "FT HAMILTON PARKWAY",
+        "count": 892,
+        "classCounts": {
+          "A": 209,
+          "B": 476,
+          "C": 204,
+          "I": 3
+        }
       },
       {
         "boro": "BROOKLYN",
-        "housenumber": "1593",
-        "streetname": "FULTON STREET",
-        "count": 2952
+        "housenumber": "912",
+        "streetname": "LINDEN BOULEVARD",
+        "count": 867,
+        "classCounts": {
+          "A": 115,
+          "B": 497,
+          "C": 254,
+          "I": 1
+        }
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "229",
+        "streetname": "EAST 18 STREET",
+        "count": 796,
+        "classCounts": {
+          "A": 119,
+          "B": 481,
+          "C": 193,
+          "I": 3
+        }
+      },
+      {
+        "boro": "BROOKLYN",
+        "housenumber": "133",
+        "streetname": "MAC DONOUGH STREET",
+        "count": 746,
+        "classCounts": {
+          "A": 226,
+          "B": 398,
+          "C": 109,
+          "I": 13
+        }
       }
     ],
     "QUEENS": [
@@ -130,185 +245,352 @@
         "boro": "QUEENS",
         "housenumber": "34-15",
         "streetname": "PARSONS BOULEVARD",
-        "count": 2624
+        "count": 1251,
+        "classCounts": {
+          "A": 208,
+          "B": 784,
+          "C": 257,
+          "I": 2
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "87-40",
-        "streetname": "165 STREET",
-        "count": 2274
+        "housenumber": "41-25",
+        "streetname": "CASE STREET",
+        "count": 582,
+        "classCounts": {
+          "A": 99,
+          "B": 360,
+          "C": 122,
+          "I": 1
+        }
+      },
+      {
+        "boro": "QUEENS",
+        "housenumber": "23-35",
+        "streetname": "29 AVENUE",
+        "count": 578,
+        "classCounts": {
+          "A": 168,
+          "B": 237,
+          "C": 165,
+          "I": 8
+        }
       },
       {
         "boro": "QUEENS",
         "housenumber": "7-11",
         "streetname": "SEAGIRT AVENUE",
-        "count": 2139
+        "count": 572,
+        "classCounts": {
+          "A": 89,
+          "B": 258,
+          "C": 224,
+          "I": 1
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "146",
-        "streetname": "BEACH 59 STREET",
-        "count": 2137
+        "housenumber": "87-40",
+        "streetname": "165 STREET",
+        "count": 501,
+        "classCounts": {
+          "A": 130,
+          "B": 241,
+          "C": 130
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "22-88",
-        "streetname": "MOTT AVENUE",
-        "count": 2111
+        "housenumber": "89-29",
+        "streetname": "163 STREET",
+        "count": 448,
+        "classCounts": {
+          "A": 87,
+          "B": 199,
+          "C": 161,
+          "I": 1
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "35-64",
-        "streetname": "84 STREET",
-        "count": 1869
+        "housenumber": "85-32",
+        "streetname": "168 PLACE",
+        "count": 428,
+        "classCounts": {
+          "A": 48,
+          "B": 297,
+          "C": 83
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "109-15",
-        "streetname": "MERRICK BOULEVARD",
-        "count": 1797
+        "housenumber": "41-25",
+        "streetname": "KISSENA BOULEVARD",
+        "count": 412,
+        "classCounts": {
+          "A": 91,
+          "B": 270,
+          "C": 51
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "89-04",
-        "streetname": "34 AVENUE",
-        "count": 1665
+        "housenumber": "41-15",
+        "streetname": "46 STREET",
+        "count": 395,
+        "classCounts": {
+          "A": 84,
+          "B": 233,
+          "C": 78
+        }
       },
       {
         "boro": "QUEENS",
-        "housenumber": "143-30",
-        "streetname": "SANFORD AVENUE",
-        "count": 1602
-      },
-      {
-        "boro": "QUEENS",
-        "housenumber": "29-32",
-        "streetname": "BEACH CHANNEL DRIVE",
-        "count": 1594
+        "housenumber": "63-41",
+        "streetname": "110 STREET",
+        "count": 386,
+        "classCounts": {
+          "A": 57,
+          "B": 251,
+          "C": 78
+        }
       }
     ],
     "BRONX": [
       {
         "boro": "BRONX",
-        "housenumber": "1742",
-        "streetname": "EAST 172 STREET",
-        "count": 4674
-      },
-      {
-        "boro": "BRONX",
-        "housenumber": "1149",
-        "streetname": "STRATFORD AVENUE",
-        "count": 4390
+        "housenumber": "2510",
+        "streetname": "TRATMAN AVENUE",
+        "count": 1155,
+        "classCounts": {
+          "A": 161,
+          "B": 579,
+          "C": 414,
+          "I": 1
+        }
       },
       {
         "boro": "BRONX",
         "housenumber": "530",
         "streetname": "EAST 169 STREET",
-        "count": 4357
+        "count": 962,
+        "classCounts": {
+          "A": 99,
+          "B": 507,
+          "C": 356
+        }
       },
       {
         "boro": "BRONX",
-        "housenumber": "975",
-        "streetname": "WALTON AVENUE",
-        "count": 4258
+        "housenumber": "270",
+        "streetname": "EAST BURNSIDE AVENUE",
+        "count": 941,
+        "classCounts": {
+          "A": 122,
+          "B": 586,
+          "C": 232,
+          "I": 1
+        }
       },
       {
         "boro": "BRONX",
-        "housenumber": "1025",
-        "streetname": "BOYNTON AVENUE",
-        "count": 4011
+        "housenumber": "1600",
+        "streetname": "SEDGWICK AVENUE",
+        "count": 787,
+        "classCounts": {
+          "A": 79,
+          "B": 437,
+          "C": 271
+        }
       },
       {
         "boro": "BRONX",
-        "housenumber": "306",
-        "streetname": "EAST 171 STREET",
-        "count": 3999
-      },
-      {
-        "boro": "BRONX",
-        "housenumber": "709",
-        "streetname": "FAIRMOUNT PLACE",
-        "count": 3790
-      },
-      {
-        "boro": "BRONX",
-        "housenumber": "1259",
-        "streetname": "CLAY AVENUE",
-        "count": 3688
-      },
-      {
-        "boro": "BRONX",
-        "housenumber": "1967",
-        "streetname": "MARMION AVENUE",
-        "count": 3663
-      },
-      {
-        "boro": "BRONX",
-        "housenumber": "1420",
+        "housenumber": "1555",
         "streetname": "GRAND CONCOURSE",
-        "count": 3562
+        "count": 782,
+        "classCounts": {
+          "A": 139,
+          "B": 425,
+          "C": 217,
+          "I": 1
+        }
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "2179",
+        "streetname": "WASHINGTON AVENUE",
+        "count": 764,
+        "classCounts": {
+          "A": 98,
+          "B": 388,
+          "C": 273,
+          "I": 5
+        }
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "2344",
+        "streetname": "DAVIDSON AVENUE",
+        "count": 717,
+        "classCounts": {
+          "A": 135,
+          "B": 385,
+          "C": 196,
+          "I": 1
+        }
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "2201",
+        "streetname": "DAVIDSON AVENUE",
+        "count": 688,
+        "classCounts": {
+          "A": 61,
+          "B": 370,
+          "C": 257
+        }
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "951",
+        "streetname": "HOE AVENUE",
+        "count": 679,
+        "classCounts": {
+          "A": 59,
+          "B": 418,
+          "C": 201,
+          "I": 1
+        }
+      },
+      {
+        "boro": "BRONX",
+        "housenumber": "655",
+        "streetname": "EAST 234 STREET",
+        "count": 668,
+        "classCounts": {
+          "A": 191,
+          "B": 305,
+          "C": 171,
+          "I": 1
+        }
       }
     ],
     "STATEN ISLAND": [
       {
         "boro": "STATEN ISLAND",
-        "housenumber": "185",
-        "streetname": "PARK HILL AVENUE",
-        "count": 2329
-      },
-      {
-        "boro": "STATEN ISLAND",
         "housenumber": "140",
         "streetname": "PARK HILL AVENUE",
-        "count": 2303
-      },
-      {
-        "boro": "STATEN ISLAND",
-        "housenumber": "225",
-        "streetname": "PARK HILL AVENUE",
-        "count": 2298
-      },
-      {
-        "boro": "STATEN ISLAND",
-        "housenumber": "280",
-        "streetname": "PARKHILL AVENUE",
-        "count": 2170
-      },
-      {
-        "boro": "STATEN ISLAND",
-        "housenumber": "55",
-        "streetname": "HOLLAND AVENUE",
-        "count": 2055
-      },
-      {
-        "boro": "STATEN ISLAND",
-        "housenumber": "240",
-        "streetname": "PARK HILL AVENUE",
-        "count": 2012
+        "count": 826,
+        "classCounts": {
+          "A": 122,
+          "B": 453,
+          "C": 250,
+          "I": 1
+        }
       },
       {
         "boro": "STATEN ISLAND",
         "housenumber": "260",
         "streetname": "PARKHILL AVENUE",
-        "count": 1928
+        "count": 452,
+        "classCounts": {
+          "A": 59,
+          "B": 249,
+          "C": 144
+        }
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "77",
+        "streetname": "HARRISON AVENUE",
+        "count": 451,
+        "classCounts": {
+          "A": 68,
+          "B": 358,
+          "C": 25
+        }
       },
       {
         "boro": "STATEN ISLAND",
         "housenumber": "180",
         "streetname": "PARKHILL AVENUE",
-        "count": 1732
+        "count": 401,
+        "classCounts": {
+          "A": 65,
+          "B": 216,
+          "C": 115,
+          "I": 5
+        }
       },
       {
         "boro": "STATEN ISLAND",
-        "housenumber": "35",
-        "streetname": "HOLLAND AVENUE",
-        "count": 1717
+        "housenumber": "185",
+        "streetname": "PARK HILL AVENUE",
+        "count": 364,
+        "classCounts": {
+          "A": 54,
+          "B": 189,
+          "C": 121
+        }
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "52",
+        "streetname": "QUINN STREET",
+        "count": 321,
+        "classCounts": {
+          "A": 13,
+          "B": 245,
+          "C": 55,
+          "I": 8
+        }
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "280",
+        "streetname": "PARKHILL AVENUE",
+        "count": 291,
+        "classCounts": {
+          "A": 43,
+          "B": 126,
+          "C": 121,
+          "I": 1
+        }
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "52",
+        "streetname": "HARBOR ROAD",
+        "count": 285,
+        "classCounts": {
+          "A": 35,
+          "B": 236,
+          "C": 13,
+          "I": 1
+        }
+      },
+      {
+        "boro": "STATEN ISLAND",
+        "housenumber": "225",
+        "streetname": "PARK HILL AVENUE",
+        "count": 281,
+        "classCounts": {
+          "A": 26,
+          "B": 144,
+          "C": 111
+        }
       },
       {
         "boro": "STATEN ISLAND",
         "housenumber": "160",
         "streetname": "PARKHILL AVENUE",
-        "count": 1670
+        "count": 261,
+        "classCounts": {
+          "A": 39,
+          "B": 130,
+          "C": 92
+        }
       }
     ]
   }

@@ -18,6 +18,18 @@ function formatLastUpdated(iso: string): string {
   }
 }
 
+// Order for known violation classes; unknown classes appended alphabetically after.
+const CLASS_ORDER = ['A', 'B', 'C'];
+
+function sortedClassEntries(classCounts: Record<string, number>): [string, number][] {
+  const known = CLASS_ORDER.filter((c) => c in classCounts).map((c) => [c, classCounts[c]] as [string, number]);
+  const unknown = Object.keys(classCounts)
+    .filter((c) => !CLASS_ORDER.includes(c))
+    .sort()
+    .map((c) => [c, classCounts[c]] as [string, number]);
+  return [...known, ...unknown];
+}
+
 export function TopAddressesPage() {
   const navigate = useNavigate();
   const setBorough = useFilterStore((s) => s.setBorough);
@@ -33,7 +45,7 @@ export function TopAddressesPage() {
         <Link to="/" className="top-addresses-back">← Map</Link>
         <h1 className="top-addresses-title">Top 10 Violating Addresses by Borough</h1>
         <p className="top-addresses-subtitle">
-          Addresses with the most housing maintenance code violations in each borough
+          Addresses with the most open housing maintenance code violations in each borough
         </p>
         <p className="top-addresses-updated" aria-label="Data last updated">
           Last updated {formatLastUpdated(LAST_UPDATED)}
@@ -54,23 +66,40 @@ export function TopAddressesPage() {
               </h2>
               {entries.length > 0 ? (
                 <ol className="top-addresses-list" start={1}>
-                  {entries.map((entry, index) => (
-                    <li key={`${entry.housenumber}-${entry.streetname}-${index}`}>
-                      <button
-                        className="top-addresses-row"
-                        onClick={() => handleAddressClick(entry)}
-                        aria-label={`View ${formatAddress(entry.housenumber, entry.streetname)} on map`}
-                      >
-                        <span className="top-addresses-rank" aria-hidden="true">{index + 1}</span>
-                        <span className="top-addresses-address">
-                          {formatAddress(entry.housenumber, entry.streetname)}
-                        </span>
-                        <span className="top-addresses-count">
-                          {entry.count.toLocaleString()} violations
-                        </span>
-                      </button>
-                    </li>
-                  ))}
+                  {entries.map((entry, index) => {
+                    const classCounts = entry.classCounts as Record<string, number> | undefined;
+                    const classEntries = classCounts ? sortedClassEntries(classCounts) : [];
+                    return (
+                      <li key={`${entry.housenumber}-${entry.streetname}-${index}`}>
+                        <button
+                          className="top-addresses-row"
+                          onClick={() => handleAddressClick(entry)}
+                          aria-label={`View ${formatAddress(entry.housenumber, entry.streetname)} on map`}
+                        >
+                          <span className="top-addresses-rank" aria-hidden="true">{index + 1}</span>
+                          <span className="top-addresses-address">
+                            {formatAddress(entry.housenumber, entry.streetname)}
+                          </span>
+                          <span className="top-addresses-count">
+                            {entry.count.toLocaleString()} open
+                          </span>
+                          {classEntries.length > 0 && (
+                            <span className="top-addresses-classes" aria-label="Open violations by class">
+                              {classEntries.map(([cls, count]) => (
+                                <span
+                                  key={cls}
+                                  className={`top-addresses-class top-addresses-class--${cls}`}
+                                  aria-label={`Class ${cls}: ${count.toLocaleString()}`}
+                                >
+                                  {cls} {count.toLocaleString()}
+                                </span>
+                              ))}
+                            </span>
+                          )}
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ol>
               ) : (
                 <p className="top-addresses-empty">No data. Run <code>node scripts/fetch-top-addresses.mjs</code> to refresh.</p>

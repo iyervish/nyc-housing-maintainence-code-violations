@@ -11,7 +11,7 @@ async function fetchTop10ForBorough(borough) {
   const params = new URLSearchParams({
     '$select': 'boro,housenumber,streetname,count(*) as count',
     '$group': 'boro,housenumber,streetname',
-    '$where': `boro='${borough}'`,
+    '$where': `boro='${borough}' AND violationstatus='Open'`,
     '$order': 'count DESC',
     '$limit': '10',
   });
@@ -27,13 +27,37 @@ async function fetchTop10ForBorough(borough) {
   }));
 }
 
+async function fetchClassCountsForAddress(boro, housenumber, streetname) {
+  const params = new URLSearchParams({
+    '$select': 'class,count(*) as count',
+    '$group': 'class',
+    '$where': `boro='${boro}' AND housenumber='${housenumber}' AND streetname='${streetname}' AND violationstatus='Open'`,
+    '$limit': '10',
+  });
+  const url = `${SOCRATA_BASE}?${params}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${await res.text()}`);
+  const rows = await res.json();
+  const classCounts = {};
+  for (const row of rows) {
+    if (row.class) classCounts[row.class] = Number(row.count);
+  }
+  return classCounts;
+}
+
 async function main() {
   const data = {};
   for (const boro of BOROUGHS) {
     console.error(`Fetching ${boro}...`);
     const top10 = await fetchTop10ForBorough(boro);
-    data[boro] = top10;
     console.error(`  top address: ${top10[0]?.housenumber} ${top10[0]?.streetname} (${top10[0]?.count} violations)`);
+
+    const enriched = [];
+    for (const entry of top10) {
+      const classCounts = await fetchClassCountsForAddress(entry.boro, entry.housenumber, entry.streetname);
+      enriched.push({ ...entry, classCounts });
+    }
+    data[boro] = enriched;
   }
   const lastUpdated = new Date().toISOString().slice(0, 10);
   const out = { lastUpdated, data };
