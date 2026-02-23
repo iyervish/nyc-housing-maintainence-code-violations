@@ -1,13 +1,5 @@
 import { useFilterStore } from '../../store/filterStore';
-import type { Borough } from '../../types/violation';
-
-const BOROUGHS: { value: Borough; label: string }[] = [
-  { value: 'MANHATTAN', label: 'Manhattan' },
-  { value: 'BROOKLYN', label: 'Brooklyn' },
-  { value: 'QUEENS', label: 'Queens' },
-  { value: 'BRONX', label: 'Bronx' },
-  { value: 'STATEN ISLAND', label: 'Staten Island' },
-];
+import { BOROUGHS } from '../../constants/boroughs';
 
 export function BoroughFilter() {
   const { borough, setBorough } = useFilterStore();

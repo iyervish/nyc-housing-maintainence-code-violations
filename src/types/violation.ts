@@ -51,3 +51,11 @@ export interface AddressFeatureProperties {
   streetname: string;
   nta: string;
 }
+
+/** One row for the top-addresses-by-borough page. */
+export interface TopAddressEntry {
+  boro: Borough;
+  housenumber: string;
+  streetname: string;
+  count: number;
+}

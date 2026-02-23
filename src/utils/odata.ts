@@ -14,3 +14,8 @@ export function buildODataFilter(options: ODataFilterOptions): string {
 
   return parts.join(' and ');
 }
+
+/** Filter for fetching all violations in a borough (for top-address aggregation). */
+export function buildBoroughOnlyFilter(borough: Borough): string {
+  return `boro eq '${borough}'`;
+}
