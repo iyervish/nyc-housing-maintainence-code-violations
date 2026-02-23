@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BOROUGHS, BOROUGH_LABEL } from '../constants/boroughs';
 import { LAST_UPDATED, TOP_ADDRESSES_BY_BOROUGH } from '../data/topAddresses';
-import type { Borough } from '../types/violation';
+import type { Borough, TopAddressEntry } from '../types/violation';
+import { useFilterStore } from '../store/filterStore';
 
 function formatAddress(housenumber: string, streetname: string): string {
   const parts = [housenumber, streetname].filter(Boolean);
@@ -18,6 +19,14 @@ function formatLastUpdated(iso: string): string {
 }
 
 export function TopAddressesPage() {
+  const navigate = useNavigate();
+  const setBorough = useFilterStore((s) => s.setBorough);
+
+  function handleAddressClick(entry: TopAddressEntry) {
+    setBorough(entry.boro);
+    navigate('/', { state: { focusAddress: { housenumber: entry.housenumber, streetname: entry.streetname, boro: entry.boro } } });
+  }
+
   return (
     <div className="top-addresses-page">
       <header className="top-addresses-header">
@@ -46,14 +55,20 @@ export function TopAddressesPage() {
               {entries.length > 0 ? (
                 <ol className="top-addresses-list" start={1}>
                   {entries.map((entry, index) => (
-                    <li key={`${entry.housenumber}-${entry.streetname}-${index}`} className="top-addresses-row">
-                      <span className="top-addresses-rank" aria-hidden>{index + 1}</span>
-                      <span className="top-addresses-address">
-                        {formatAddress(entry.housenumber, entry.streetname)}
-                      </span>
-                      <span className="top-addresses-count">
-                        {entry.count.toLocaleString()} violations
-                      </span>
+                    <li key={`${entry.housenumber}-${entry.streetname}-${index}`}>
+                      <button
+                        className="top-addresses-row"
+                        onClick={() => handleAddressClick(entry)}
+                        aria-label={`View ${formatAddress(entry.housenumber, entry.streetname)} on map`}
+                      >
+                        <span className="top-addresses-rank" aria-hidden="true">{index + 1}</span>
+                        <span className="top-addresses-address">
+                          {formatAddress(entry.housenumber, entry.streetname)}
+                        </span>
+                        <span className="top-addresses-count">
+                          {entry.count.toLocaleString()} violations
+                        </span>
+                      </button>
                     </li>
                   ))}
                 </ol>

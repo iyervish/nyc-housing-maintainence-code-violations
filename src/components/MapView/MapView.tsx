@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import Map, { NavigationControl, useMap } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import type { GeoJSONSource } from 'maplibre-gl';
@@ -44,8 +44,55 @@ interface PopupState {
   violations: ViolationProperties[];
 }
 
+interface FocusAddress {
+  housenumber: string;
+  streetname: string;
+  boro: string;
+}
+
 interface MapViewProps {
   geojson: FeatureCollection<Point, AddressFeatureProperties> | null;
+  focusAddress?: FocusAddress | null;
+}
+
+function FocusAddressHandler({
+  geojson,
+  focusAddress,
+  onFocus,
+}: {
+  geojson: FeatureCollection<Point, AddressFeatureProperties> | null;
+  focusAddress: FocusAddress | null | undefined;
+  onFocus: (popup: PopupState) => void;
+}) {
+  const { current: mapRef } = useMap();
+  const handledRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!focusAddress || !geojson || !mapRef) return;
+
+    const key = `${focusAddress.housenumber}|${focusAddress.streetname}|${focusAddress.boro}`;
+    if (handledRef.current === key) return;
+
+    const hn = focusAddress.housenumber.trim().toUpperCase();
+    const sn = focusAddress.streetname.trim().toUpperCase();
+    const feature = geojson.features.find(
+      (f) =>
+        (f.properties?.housenumber ?? '').trim().toUpperCase() === hn &&
+        (f.properties?.streetname ?? '').trim().toUpperCase() === sn
+    );
+
+    if (!feature || feature.geometry.type !== 'Point') return;
+
+    const [lng, lat] = feature.geometry.coordinates as [number, number];
+    const violations = feature.properties?.violations;
+    if (Array.isArray(violations) && violations.length > 0) {
+      mapRef.flyTo({ center: [lng, lat], zoom: 16 });
+      onFocus({ longitude: lng, latitude: lat, violations });
+      handledRef.current = key;
+    }
+  }, [focusAddress, geojson, mapRef, onFocus]);
+
+  return null;
 }
 
 const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
@@ -74,9 +121,10 @@ function ViewportCountUpdater({
   return null;
 }
 
-export function MapView({ geojson }: MapViewProps) {
+export function MapView({ geojson, focusAddress }: MapViewProps) {
   const [popup, setPopup] = useState<PopupState | null>(null);
   const setVisibleCount = useMapStore((s) => s.setVisibleCount);
+  const handleFocusAddress = useCallback((popupState: PopupState) => setPopup(popupState), []);
 
   useEffect(() => {
     if (!geojson) setVisibleCount(0);
@@ -153,6 +201,7 @@ export function MapView({ geojson }: MapViewProps) {
       >
         <NavigationControl position="top-right" />
         <ViewportCountUpdater geojson={geojson} />
+        <FocusAddressHandler geojson={geojson} focusAddress={focusAddress} onFocus={handleFocusAddress} />
 
         {geojson && (
           <ClusterLayer geojson={geojson} />
