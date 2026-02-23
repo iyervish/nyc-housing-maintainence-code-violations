@@ -1,4 +1,6 @@
-export const ODATA_BASE_URL = '/api/odata/v4/wvxf-dwi5';
+export const ODATA_BASE_URL = import.meta.env.DEV
+  ? '/api/odata/v4/wvxf-dwi5'
+  : 'https://data.cityofnewyork.us/api/odata/v4/wvxf-dwi5';
 
 export const MAPTILER_STYLE_URL = (key: string) =>
   `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${key}`;
