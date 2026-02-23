@@ -94,7 +94,7 @@ export function AddressPopup({
                 <div className="address-popup-item-top">
                   <span
                     className="popup-grade-letter address-popup-grade"
-                    aria-label={`Class ${v.class}`}
+                    aria-label={classLabel}
                   >
                     {v.class}
                   </span>
