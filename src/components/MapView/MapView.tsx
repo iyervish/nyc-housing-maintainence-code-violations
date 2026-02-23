@@ -5,7 +5,7 @@ import type { GeoJSONSource } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { ClusterLayer } from './ClusterLayer';
-import { ViolationPopup } from './ViolationPopup';
+import { AddressPopup } from './AddressPopup';
 import {
   NYC_CENTER,
   NYC_INITIAL_ZOOM,
@@ -19,7 +19,7 @@ import type { ViolationProperties } from '../../types/violation';
 interface PopupState {
   longitude: number;
   latitude: number;
-  properties: ViolationProperties;
+  violations: ViolationProperties[];
 }
 
 interface MapViewProps {
@@ -54,12 +54,24 @@ export function MapView({ geojson }: MapViewProps) {
             event.target.easeTo({ center: [longitude, latitude], zoom });
           }).catch(() => undefined);
         }
-      } else if (feature.properties) {
-        setPopup({
-          longitude,
-          latitude,
-          properties: feature.properties as ViolationProperties,
-        });
+      } else {
+        const violationFeatures = features.filter(
+          (f) => f.properties && !('point_count' in f.properties)
+        );
+        const violations = violationFeatures
+          .map((f) => f.properties as ViolationProperties)
+          .filter((p): p is ViolationProperties => p != null);
+        if (violations.length > 0) {
+          const addressKey = (p: ViolationProperties) =>
+            `${p.boro}|${p.housenumber}|${p.streetname}`;
+          const key = addressKey(violations[0]);
+          const atSameAddress = violations.filter((p) => addressKey(p) === key);
+          setPopup({
+            longitude,
+            latitude,
+            violations: atSameAddress,
+          });
+        }
       }
     },
     []
@@ -87,10 +99,10 @@ export function MapView({ geojson }: MapViewProps) {
         )}
 
         {popup && (
-          <ViolationPopup
+          <AddressPopup
             longitude={popup.longitude}
             latitude={popup.latitude}
-            properties={popup.properties}
+            violations={popup.violations}
             onClose={handleClosePopup}
           />
         )}

@@ -461,6 +461,79 @@ body {
   color: #c4c8dc;
 }
 
+/* Address-level popup (multiple violations at same address) */
+.address-popup-stripe {
+  background: linear-gradient(
+    90deg,
+    #4CAF50 0%,
+    #FF9800 50%,
+    #F44336 100%
+  );
+}
+
+.address-popup-header {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-popup-count {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #a0a6be;
+  margin-top: 4px;
+}
+
+.address-popup-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 42vh;
+  overflow-y: auto;
+}
+
+.address-popup-item {
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.address-popup-item:last-child {
+  border-bottom: none;
+}
+
+.address-popup-item-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.address-popup-grade {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.address-popup-item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.address-popup-desc {
+  margin: 8px 0 0;
+  padding: 6px 8px;
+  background-color: rgba(0, 0, 0, 0.18);
+  border-left: 2px solid var(--class-color, #888);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #c4c8dc;
+}
+
 /* MapLibre GL overrides */
 .maplibregl-ctrl-group {
   background-color: var(--color-surface) !important;
