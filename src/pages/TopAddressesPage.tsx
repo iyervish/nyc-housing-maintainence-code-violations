@@ -1,5 +1,5 @@
-import { useTopAddresses } from '../hooks/useTopAddresses';
 import { BOROUGHS, BOROUGH_LABEL } from '../constants/boroughs';
+import { LAST_UPDATED, TOP_ADDRESSES_BY_BOROUGH } from '../data/topAddresses';
 import type { Borough } from '../types/violation';
 
 function formatAddress(housenumber: string, streetname: string): string {
@@ -7,19 +7,16 @@ function formatAddress(housenumber: string, streetname: string): string {
   return parts.length ? parts.join(' ') : '—';
 }
 
-export function TopAddressesPage() {
-  const { topByBorough, loading, error, progress } = useTopAddresses();
-
-  if (error) {
-    return (
-      <div className="top-addresses-page">
-        <div className="top-addresses-error" role="alert">
-          {error}
-        </div>
-      </div>
-    );
+function formatLastUpdated(iso: string): string {
+  try {
+    const d = new Date(iso + 'T12:00:00');
+    return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  } catch {
+    return iso;
   }
+}
 
+export function TopAddressesPage() {
   return (
     <div className="top-addresses-page">
       <header className="top-addresses-header">
@@ -27,36 +24,24 @@ export function TopAddressesPage() {
         <p className="top-addresses-subtitle">
           Addresses with the most housing maintenance code violations in each borough
         </p>
+        <p className="top-addresses-updated" aria-label="Data last updated">
+          Last updated {formatLastUpdated(LAST_UPDATED)}
+        </p>
       </header>
 
-      {loading && progress && (
-        <div className="top-addresses-progress" aria-live="polite">
-          <div className="top-addresses-progress-bar" />
-          <p className="top-addresses-progress-text">
-            Fetching {progress.currentBorough ? BOROUGH_LABEL[progress.currentBorough] : '…'} …
-            {progress.count > 0 && ` ${progress.count.toLocaleString()} records`}
-          </p>
-          <p className="top-addresses-progress-meta">
-            Borough {progress.boroughIndex} of {progress.totalBoroughs}
-          </p>
-        </div>
-      )}
-
       <div className="top-addresses-content">
-        {topByBorough &&
-          BOROUGHS.map(({ value }) => {
-            const entries = topByBorough[value as Borough];
-            if (!entries?.length) return null;
-
-            return (
-              <section
-                key={value}
-                className="top-addresses-borough"
-                aria-labelledby={`borough-${value}`}
-              >
-                <h2 id={`borough-${value}`} className="top-addresses-borough-title">
-                  {BOROUGH_LABEL[value as Borough]}
-                </h2>
+        {BOROUGHS.map(({ value }) => {
+          const entries = TOP_ADDRESSES_BY_BOROUGH[value as Borough] ?? [];
+          return (
+            <section
+              key={value}
+              className="top-addresses-borough"
+              aria-labelledby={`borough-${value}`}
+            >
+              <h2 id={`borough-${value}`} className="top-addresses-borough-title">
+                {BOROUGH_LABEL[value as Borough]}
+              </h2>
+              {entries.length > 0 ? (
                 <ol className="top-addresses-list" start={1}>
                   {entries.map((entry, index) => (
                     <li key={`${entry.housenumber}-${entry.streetname}-${index}`} className="top-addresses-row">
@@ -70,9 +55,12 @@ export function TopAddressesPage() {
                     </li>
                   ))}
                 </ol>
-              </section>
-            );
-          })}
+              ) : (
+                <p className="top-addresses-empty">No data. Run <code>node scripts/fetch-top-addresses.mjs</code> to refresh.</p>
+              )}
+            </section>
+          );
+        })}
       </div>
     </div>
   );

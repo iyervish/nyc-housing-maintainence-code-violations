@@ -565,6 +565,26 @@ body {
   margin-top: 6px;
 }
 
+.top-addresses-updated {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 10px;
+}
+
+.top-addresses-empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  padding: 16px 20px;
+  margin: 0;
+}
+
+.top-addresses-empty code {
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
 .top-addresses-error {
   padding: 16px 20px;
   background-color: rgba(239, 83, 80, 0.1);
@@ -572,41 +592,6 @@ body {
   border-radius: var(--radius-md);
   color: var(--color-error);
   font-size: 14px;
-}
-
-.top-addresses-progress {
-  margin-bottom: 28px;
-  padding: 16px 20px;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-.top-addresses-progress-bar {
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-accent) 40%,
-    var(--color-accent-hover) 60%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: loading-shimmer 1.5s infinite;
-  margin-bottom: 12px;
-}
-
-.top-addresses-progress-text {
-  font-size: 13px;
-  color: var(--color-text);
-  font-weight: 500;
-}
-
-.top-addresses-progress-meta {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  margin-top: 4px;
 }
 
 .top-addresses-content {
