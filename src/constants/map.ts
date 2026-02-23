@@ -24,6 +24,7 @@ export const CLUSTER_SOURCE_ID = 'violations-cluster-source';
 export const CLUSTER_CIRCLES_LAYER_ID = 'violations-clusters';
 export const CLUSTER_COUNT_LAYER_ID = 'violations-cluster-count';
 export const UNCLUSTERED_LAYER_ID = 'violations-unclustered';
+export const UNCLUSTERED_COUNT_LAYER_ID = 'violations-unclustered-count';
 
 export const NYC_CENTER: [number, number] = [-73.9857, 40.7484];
 export const NYC_INITIAL_ZOOM = 10;

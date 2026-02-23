@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import type { FeatureCollection, Point } from 'geojson';
 import { fetchAllViolations } from '../api/violations';
 import { buildODataFilter } from '../utils/odata';
-import { violationsToGeoJSON } from '../utils/geojson';
+import { violationsToAddressGeoJSON } from '../utils/geojson';
 import { useFilterStore } from '../store/filterStore';
-import type { ViolationProperties } from '../types/violation';
+import type { AddressFeatureProperties } from '../types/violation';
 
 interface UseViolationsResult {
-  geojson: FeatureCollection<Point, ViolationProperties> | null;
+  geojson: FeatureCollection<Point, AddressFeatureProperties> | null;
   loading: boolean;
   error: string | null;
   recordCount: number;
@@ -15,7 +15,7 @@ interface UseViolationsResult {
 
 export function useViolations(): UseViolationsResult {
   const { borough, violationClass } = useFilterStore();
-  const [geojson, setGeojson] = useState<FeatureCollection<Point, ViolationProperties> | null>(null);
+  const [geojson, setGeojson] = useState<FeatureCollection<Point, AddressFeatureProperties> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recordCount, setRecordCount] = useState(0);
@@ -40,7 +40,7 @@ export function useViolations(): UseViolationsResult {
     })
       .then((violations) => {
         if (!controller.signal.aborted) {
-          const featureCollection = violationsToGeoJSON(violations);
+          const featureCollection = violationsToAddressGeoJSON(violations);
           setGeojson(featureCollection);
           setLoading(false);
         }

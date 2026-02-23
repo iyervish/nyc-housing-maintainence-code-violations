@@ -12,15 +12,16 @@ import {
   NYC_INITIAL_ZOOM,
   CLUSTER_CIRCLES_LAYER_ID,
   UNCLUSTERED_LAYER_ID,
+  UNCLUSTERED_COUNT_LAYER_ID,
   CLUSTER_SOURCE_ID,
   MAPTILER_STYLE_URL,
 } from '../../constants/map';
-import type { ViolationProperties } from '../../types/violation';
+import type { AddressFeatureProperties, ViolationProperties } from '../../types/violation';
 
 type BoundsLike = { getWest(): number; getEast(): number; getSouth(): number; getNorth(): number };
 
 function countVisibleInBounds(
-  geojson: FeatureCollection<Point, ViolationProperties>,
+  geojson: FeatureCollection<Point, AddressFeatureProperties>,
   map: { getBounds(): BoundsLike }
 ): number {
   const bounds = map.getBounds();
@@ -28,11 +29,13 @@ function countVisibleInBounds(
   const east = bounds.getEast();
   const south = bounds.getSouth();
   const north = bounds.getNorth();
-  return geojson.features.filter((f) => {
-    if (f.geometry.type !== 'Point') return false;
+  return geojson.features.reduce((sum, f) => {
+    if (f.geometry.type !== 'Point') return sum;
     const [lng, lat] = f.geometry.coordinates;
-    return lng >= west && lng <= east && lat >= south && lat <= north;
-  }).length;
+    const inBounds = lng >= west && lng <= east && lat >= south && lat <= north;
+    const count = f.properties?.violationCount ?? 0;
+    return inBounds ? sum + count : sum;
+  }, 0);
 }
 
 interface PopupState {
@@ -42,7 +45,7 @@ interface PopupState {
 }
 
 interface MapViewProps {
-  geojson: FeatureCollection<Point, ViolationProperties> | null;
+  geojson: FeatureCollection<Point, AddressFeatureProperties> | null;
 }
 
 const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
@@ -50,7 +53,7 @@ const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
 function ViewportCountUpdater({
   geojson,
 }: {
-  geojson: FeatureCollection<Point, ViolationProperties> | null;
+  geojson: FeatureCollection<Point, AddressFeatureProperties> | null;
 }) {
   const { current: mapRef } = useMap();
   const setVisibleCount = useMapStore((s) => s.setVisibleCount);
@@ -79,7 +82,11 @@ export function MapView({ geojson }: MapViewProps) {
     if (!geojson) setVisibleCount(0);
   }, [geojson, setVisibleCount]);
 
-  const interactiveLayerIds = [CLUSTER_CIRCLES_LAYER_ID, UNCLUSTERED_LAYER_ID];
+  const interactiveLayerIds = [
+  CLUSTER_CIRCLES_LAYER_ID,
+  UNCLUSTERED_LAYER_ID,
+  UNCLUSTERED_COUNT_LAYER_ID,
+];
 
   const handleMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
@@ -103,21 +110,15 @@ export function MapView({ geojson }: MapViewProps) {
           }).catch(() => undefined);
         }
       } else {
-        const violationFeatures = features.filter(
-          (f) => f.properties && !('point_count' in f.properties)
+        const addressFeature = features.find(
+          (f) => f.properties && 'violationCount' in f.properties
         );
-        const violations = violationFeatures
-          .map((f) => f.properties as ViolationProperties)
-          .filter((p): p is ViolationProperties => p != null);
-        if (violations.length > 0) {
-          const addressKey = (p: ViolationProperties) =>
-            `${p.boro}|${p.housenumber}|${p.streetname}`;
-          const key = addressKey(violations[0]);
-          const atSameAddress = violations.filter((p) => addressKey(p) === key);
+        const props = addressFeature?.properties as AddressFeatureProperties | undefined;
+        if (props?.violations?.length) {
           setPopup({
             longitude,
             latitude,
-            violations: atSameAddress,
+            violations: props.violations,
           });
         }
       }

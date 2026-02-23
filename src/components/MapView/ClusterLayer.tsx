@@ -6,11 +6,12 @@ import {
   CLUSTER_CIRCLES_LAYER_ID,
   CLUSTER_COUNT_LAYER_ID,
   UNCLUSTERED_LAYER_ID,
+  UNCLUSTERED_COUNT_LAYER_ID,
 } from '../../constants/map';
-import type { ViolationProperties } from '../../types/violation';
+import type { AddressFeatureProperties } from '../../types/violation';
 
 interface ClusterLayerProps {
-  geojson: FeatureCollection<Point, ViolationProperties>;
+  geojson: FeatureCollection<Point, AddressFeatureProperties>;
 }
 
 const clusterCirclesLayer: LayerProps = {
@@ -61,16 +62,47 @@ const unclusteredLayer: LayerProps = {
   filter: ['!', ['has', 'point_count']],
   paint: {
     'circle-color': [
-      'match',
-      ['get', 'class'],
-      'C', '#F44336',
-      'B', '#FF9800',
-      'A', '#4CAF50',
-      '#888888',
+      'interpolate',
+      ['linear'],
+      ['get', 'violationCount'],
+      1,
+      'rgba(76, 175, 80, 0.9)',
+      5,
+      'rgba(255, 152, 0, 0.9)',
+      15,
+      'rgba(244, 67, 54, 0.9)',
     ],
-    'circle-radius': 6,
-    'circle-stroke-width': 1,
-    'circle-stroke-color': '#fff',
+    'circle-radius': [
+      'interpolate',
+      ['linear'],
+      ['get', 'violationCount'],
+      1,
+      8,
+      5,
+      12,
+      20,
+      18,
+      50,
+      24,
+    ],
+    'circle-stroke-width': 2,
+    'circle-stroke-color': 'rgba(255,255,255,0.8)',
+  },
+};
+
+const unclusteredCountLayer: LayerProps = {
+  id: UNCLUSTERED_COUNT_LAYER_ID,
+  type: 'symbol',
+  filter: ['!', ['has', 'point_count']],
+  layout: {
+    'text-field': ['get', 'violationCount'],
+    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+    'text-size': 11,
+  },
+  paint: {
+    'text-color': '#fff',
+    'text-halo-color': 'rgba(0,0,0,0.6)',
+    'text-halo-width': 1.5,
   },
 };
 
@@ -87,6 +119,7 @@ export function ClusterLayer({ geojson }: ClusterLayerProps) {
       <Layer {...clusterCirclesLayer} />
       <Layer {...clusterCountLayer} />
       <Layer {...unclusteredLayer} />
+      <Layer {...unclusteredCountLayer} />
     </Source>
   );
 }

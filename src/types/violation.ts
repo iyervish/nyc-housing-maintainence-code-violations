@@ -41,3 +41,13 @@ export interface ViolationProperties {
   rentimpairing: string;
   nta: string;
 }
+
+/** One point per address for map; used when showing individual addresses. */
+export interface AddressFeatureProperties {
+  violationCount: number;
+  violations: ViolationProperties[];
+  boro: Borough;
+  housenumber: string;
+  streetname: string;
+  nta: string;
+}
