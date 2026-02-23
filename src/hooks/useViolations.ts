@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FeatureCollection, Point } from 'geojson';
 import { fetchAllViolations } from '../api/violations';
+import { getCached, setCache } from '../api/violationsCache';
 import { buildODataFilter } from '../utils/odata';
 import { violationsToAddressGeoJSON } from '../utils/geojson';
 import { useFilterStore } from '../store/filterStore';
@@ -35,11 +36,20 @@ export function useViolations(): UseViolationsResult {
 
     const filter = buildODataFilter({ borough, violationClass });
 
+    const cached = getCached(filter);
+    if (cached) {
+      setGeojson(violationsToAddressGeoJSON(cached));
+      setRecordCount(cached.length);
+      setLoading(false);
+      return;
+    }
+
     fetchAllViolations(filter, controller.signal, (count) => {
       setRecordCount(count);
     })
       .then((violations) => {
         if (!controller.signal.aborted) {
+          setCache(filter, violations);
           const featureCollection = violationsToAddressGeoJSON(violations);
           setGeojson(featureCollection);
           setLoading(false);
