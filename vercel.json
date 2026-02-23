@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/odata/:path*",
+      "destination": "https://data.cityofnewyork.us/api/odata/:path*"
+    }
+  ]
+}
