@@ -110,18 +110,24 @@ export function MapView({ geojson }: MapViewProps) {
           }).catch(() => undefined);
         }
       } else if (geojson) {
-        const [lng, lat] = [longitude, latitude];
-        const tol = 1e-9;
-        const match = geojson.features.find((f) => {
-          if (f.geometry.type !== 'Point') return false;
+        const clickLng = (event as unknown as { lngLat?: { lng: number; lat: number } }).lngLat?.lng ?? longitude;
+        const clickLat = (event as unknown as { lngLat?: { lng: number; lat: number } }).lngLat?.lat ?? latitude;
+        const thresholdDeg = 0.001;
+        let best: { feature: (typeof geojson.features)[0]; dist: number } | null = null;
+        for (const f of geojson.features) {
+          if (f.geometry.type !== 'Point') continue;
           const [x, y] = f.geometry.coordinates;
-          return Math.abs(x - lng) < tol && Math.abs(y - lat) < tol;
-        });
-        const violations = match?.properties?.violations;
+          const dist = (x - clickLng) ** 2 + (y - clickLat) ** 2;
+          if (dist <= thresholdDeg * thresholdDeg && (!best || dist < best.dist)) {
+            best = { feature: f, dist };
+          }
+        }
+        const violations = best?.feature?.properties?.violations;
         if (Array.isArray(violations) && violations.length > 0) {
+          const [popupLng, popupLat] = best!.feature.geometry.coordinates;
           setPopup({
-            longitude,
-            latitude,
+            longitude: popupLng,
+            latitude: popupLat,
             violations,
           });
         }
