@@ -1,11 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import Map, { NavigationControl } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
-import type { GeoJSONSource } from 'maplibre-gl';
+import type { GeoJSONSource, Map as MapLibreMap } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { ClusterLayer } from './ClusterLayer';
 import { AddressPopup } from './AddressPopup';
+import { useMapStore } from '../../store/mapStore';
 import {
   NYC_CENTER,
   NYC_INITIAL_ZOOM,
@@ -15,6 +16,22 @@ import {
   MAPTILER_STYLE_URL,
 } from '../../constants/map';
 import type { ViolationProperties } from '../../types/violation';
+
+function countVisibleInBounds(
+  geojson: FeatureCollection<Point, ViolationProperties>,
+  map: MapLibreMap
+): number {
+  const bounds = map.getBounds();
+  const west = bounds.getWest();
+  const east = bounds.getEast();
+  const south = bounds.getSouth();
+  const north = bounds.getNorth();
+  return geojson.features.filter((f) => {
+    if (f.geometry.type !== 'Point') return false;
+    const [lng, lat] = f.geometry.coordinates;
+    return lng >= west && lng <= east && lat >= south && lat <= north;
+  }).length;
+}
 
 interface PopupState {
   longitude: number;
@@ -30,6 +47,33 @@ const mapStyle = MAPTILER_STYLE_URL(import.meta.env.VITE_MAPTILER_KEY);
 
 export function MapView({ geojson }: MapViewProps) {
   const [popup, setPopup] = useState<PopupState | null>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
+  const setVisibleCount = useMapStore((s) => s.setVisibleCount);
+
+  const updateVisibleCount = useCallback(() => {
+    if (!geojson) {
+      setVisibleCount(0);
+      return;
+    }
+    if (!mapRef.current) return;
+    setVisibleCount(countVisibleInBounds(geojson, mapRef.current));
+  }, [geojson, setVisibleCount]);
+
+  useEffect(() => {
+    updateVisibleCount();
+  }, [updateVisibleCount]);
+
+  const handleLoad = useCallback(
+    (event: { target: MapLibreMap }) => {
+      mapRef.current = event.target;
+      if (geojson) setVisibleCount(countVisibleInBounds(geojson, event.target));
+    },
+    [geojson, setVisibleCount]
+  );
+
+  const handleMoveEnd = useCallback(() => {
+    updateVisibleCount();
+  }, [updateVisibleCount]);
 
   const interactiveLayerIds = [CLUSTER_CIRCLES_LAYER_ID, UNCLUSTERED_LAYER_ID];
 
@@ -91,6 +135,8 @@ export function MapView({ geojson }: MapViewProps) {
         mapStyle={mapStyle}
         interactiveLayerIds={interactiveLayerIds}
         onClick={handleMapClick}
+        onLoad={handleLoad}
+        onMoveEnd={handleMoveEnd}
       >
         <NavigationControl position="top-right" />
 
